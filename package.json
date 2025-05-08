@@ -1,5 +1,5 @@
 {
-  "name": "universe-mcp-server-ghas",
+  "name": "@universe/universe-mcp-server-ghas",
   "version": "0.0.1",
   "description": "GitHub Advanced Security MCP server New Functionality",
   "license": "MIT",

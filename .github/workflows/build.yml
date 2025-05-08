@@ -45,11 +45,12 @@ jobs:
           scope: '@${{ github.repository_owner }}'
 
       - name: Install dependencies
-        working-directory: src
-        run: npm ci
+        run: |
+          echo "@${{ github.repository_owner }}:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "registry=https://npm.pkg.github.com" >> .npmrc
+          npm ci
 
       - name: Publish package to GitHub Packages
-        #working-directory: src
-        run: npm publish
+        run: npm publish --registry=https://npm.pkg.github.com
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
