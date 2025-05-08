@@ -1,11 +1,11 @@
 {
-  "name": "@rajbos/ghas-mcp-server",
-  "version": "0.0.4",
-  "description": "GitHub Advanced Security MCP server",
+  "name": "universe-mcp-server-ghas",
+  "version": "0.0.1",
+  "description": "GitHub Advanced Security MCP server New Functionality",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "ghas-mcp-server": "./dist/index.js"
+    "universe-mcp-server-ghas": "./dist/index.js"
   },
   "files": [
     "dist"

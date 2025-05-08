@@ -141,3 +141,28 @@ export async function listDependabotAlerts(owner: string, repo: string) {
         throw error;
     }
 }
+
+/**
+ * Gets a specific GitHub Dependabot alert for a repository.
+ * @param owner The owner of the repository.
+ * @param repo The name of the repository.
+ * @param alertNumber The number of the specific alert to retrieve.
+ * @returns A specific Dependabot alert.
+ */
+export async function getDependabotAlert(owner: string, repo: string, alertNumber: number) {
+    const octokit = await validateAccessToken(owner, repo);
+
+    console.log(`Fetching Dependabot alert number ${alertNumber} for repository: [${owner}/${repo}]`);
+    try {
+        const { data } = await octokit.rest.dependabot.getAlert({
+            owner,
+            repo,
+            alert_number: alertNumber
+        });
+        console.log(`Fetched Dependabot alert #${alertNumber}`);
+        return data;
+    } catch (error) {
+        console.error("Error fetching Dependabot alert:", error);
+        throw error;
+    }
+}

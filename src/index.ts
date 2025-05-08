@@ -4,7 +4,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
 import { z } from 'zod';
 import { zodToJsonSchema } from 'zod-to-json-schema';
-import { listCodeScanningAlerts, listSecretScanningAlerts, listDependabotAlerts } from "./operations/security.js";
+import { listCodeScanningAlerts, listSecretScanningAlerts, listDependabotAlerts, getDependabotAlert } from "./operations/security.js";
 import { GitHubValidationError, GitHubResourceNotFoundError, GitHubAuthenticationError, GitHubPermissionError, GitHubRateLimitError, GitHubConflictError, isGitHubError, GitHubError, } from './common/errors.js';
 import { VERSION } from "./common/version.js";
 
@@ -69,6 +69,15 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                     repo: z.string(),
                 })),
             },
+            {
+                name: "get_dependabot_alert",
+                description: "Get a specific GitHub Dependabot alert from a repository",
+                inputSchema: zodToJsonSchema(z.object({
+                    owner: z.string(),
+                    repo: z.string(),
+                    alert_number: z.number(),
+                })),
+            },
         ],
     };
 });
@@ -98,6 +107,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
                 const alerts = await listDependabotAlerts(args.owner, args.repo);
                 return {
                     content: [{ type: "text", text: JSON.stringify(alerts, null, 2) }],
+                };
+            }
+            case "get_dependabot_alert": {
+                const args = z.object({ 
+                    owner: z.string(), 
+                    repo: z.string(),
+                    alert_number: z.number()
+                }).parse(request.params.arguments);
+                const alert = await getDependabotAlert(args.owner, args.repo, args.alert_number);
+                return {
+                    content: [{ type: "text", text: JSON.stringify(alert, null, 2) }],
                 };
             }
             default:
