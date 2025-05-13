@@ -57,10 +57,10 @@ async function validateAccessToken(owner: string, repo: string): Promise<Octokit
         });
 
         console.log(`Repository information fetched: [${repoInfo.data.name}]`);
-        if (!repoInfo.data.permissions || !repoInfo.data.permissions.security_events) {
-            throw new Error("The provided token does not have the 'security_events' permission for the repository. This permission is required to fetch security information.");
+        if (!repoInfo.data.permissions) {
+            throw new Error("The provided token does not have the necessary permissions for the repository. This permission is required to fetch security information.");
         } else {
-            console.log("Token has the 'security_events' permission for the repository.");
+            console.log("Token has the necessary permissions for the repository.");
         }
         console.log("Token has sufficient permissions for the repository.");
     } catch (error) {
