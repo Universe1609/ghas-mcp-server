@@ -43,7 +43,9 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          registry-url: "https://registry.npmjs.org"      - name: Install dependencies
+          registry-url: "https://registry.npmjs.org"      
+          
+      - name: Install dependencies
         run: npm ci
 
       - name: Publish package to npm
